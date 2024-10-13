@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MoodBites!</title>
+    <style>
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        margin: 0;
+        height: 100vh;
+        display: flex;
+      }
+
+      .container {
+        display: flex;
+        width: 100%;
+        height: 100vh;
+      }
+
+      /* Left section with background image */
+      .left-section {
+        background-image: url("/static/homepage.jpg"); /* Background image path */
+        background-size: cover;
+        background-position: center;
+        width: 50%;
+      }
+
+      /* Right section for the form and emoji selection */
+      .right-section {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 50%;
+        padding: 40px;
+        background-color: #f8f9fa; /* Light background color for contrast */
+      }
+
+      .form-container {
+        background-color: white;
+        padding: 40px;
+        border-radius: 15px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        width: 100%;
+        max-width: 500px; /* Increased width of the form */
+        animation: fadeIn 1s ease-in-out;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(-20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      h2 {
+        text-align: center;
+        color: #6e1dd7;
+        font-size: 2.2em;
+        margin-bottom: 30px;
+      }
+
+      h4 {
+        text-align: center;
+        color: #6e1dd7;
+        font-size: 1.5em;
+        margin-bottom: 20px; /* Reduced margin */
+        font-weight: normal; /* Set font weight to normal for non-bold */
+      }
+
+      /* Emoji grid */
+      .emojis-container {
+        display: grid;
+        grid-template-columns: repeat(4, 50px);
+        grid-gap: 15px;
+        justify-content: center;
+        margin-bottom: 30px;
+      }
+
+      .emoji {
+        cursor: pointer;
+        font-size: 2rem;
+        padding: 10px;
+        border-radius: 50%;
+        background-color: #d1c4e9;
+        transition: transform 0.2s;
+      }
+
+      .emoji:hover {
+        transform: scale(1.2);
+      }
+
+      /* Selected emoji style */
+      .selected {
+        background-color: #6e1dd7; /* Change background color for selected */
+        color: white; /* Change text color for selected */
+      }
+
+      /* Input fields */
+      .form-group {
+        margin-bottom: 20px;
+      }
+
+      input[type="text"],
+      input[type="number"] {
+        width: 100%;
+        padding: 10px;
+        font-size: 1rem;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+      }
+
+      button {
+        background-color: #6e1dd7;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        font-size: 1rem;
+        border-radius: 5px;
+        cursor: pointer;
+        width: 100%;
+        margin-top: 20px;
+      }
+
+      button:hover {
+        background-color: #0056b3;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <!-- Left Section for Background Image -->
+      <div class="left-section"></div>
+
+      <!-- Right Section for Form and Emoji Selection -->
+      <div class="right-section">
+        <div class="form-container">
+          <h2>How do you feel today?</h2>
+
+          <!-- Emoji selection -->
+          <div class="emojis-container">
+            <div class="emoji" onclick="selectMood('Happy', this)">😊</div>
+            <div class="emoji" onclick="selectMood('Sad', this)">😢</div>
+            <div class="emoji" onclick="selectMood('Angry', this)">😠</div>
+            <div class="emoji" onclick="selectMood('Surprised', this)">😲</div>
+            <div class="emoji" onclick="selectMood('Sleepy', this)">😴</div>
+            <div class="emoji" onclick="selectMood('Laughing', this)">😂</div>
+            <div class="emoji" onclick="selectMood('In Love', this)">😍</div>
+            <div class="emoji" onclick="selectMood('Confused', this)">😕</div>
+          </div>
+
+          <!-- Mood input -->
+          <div class="form-group">
+            <h4>Your mood</h4>
+            <input
+              type="text"
+              id="moodInput"
+              placeholder="Tell us about your mood..."
+              readonly
+            />
+          </div>
+
+          <!-- Dietary preferences input -->
+          <div class="form-group">
+            <h4>What are your dietary preferences?</h4>
+            <input
+              type="text"
+              id="dietaryInput"
+              placeholder="Vegetarian, Vegan, Keto, etc."
+            />
+          </div>
+
+          <!-- Allergies input -->
+          <div class="form-group">
+            <h4>Do you have any allergies?</h4>
+            <input
+              type="text"
+              id="allergyInput"
+              placeholder="e.g., Nuts, Dairy, Gluten"
+            />
+          </div>
+
+          <button onclick="sendMood()">Send</button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function selectMood(mood, element) {
+        document.getElementById("moodInput").value = mood;
+
+        // Remove selected class from all emojis
+        const emojis = document.querySelectorAll(".emoji");
+        emojis.forEach((emoji) => emoji.classList.remove("selected"));
+
+        // Add selected class to the clicked emoji
+        element.classList.add("selected");
+
+        // Show the mood input field
+        document.querySelector(".form-group").style.display = "block";
+      }
+
+      async function sendMood() {
+        const mood = document.getElementById("moodInput").value;
+        const dietaryPreferences =
+          document.getElementById("dietaryInput").value;
+        const allergies = document.getElementById("allergyInput").value;
+
+        if (mood) {
+          // Original custom prompt
+          const customPrompt = `My mood is ${mood}. I have the following dietary preferences ${dietaryPreferences}. I have the following allergies ${allergies}. What food would you recommend me for healthy lunch for making me feel better? Give me 4 food options. Give me the names of each and a one line explanation about its health benefits in a JSON format: {"name": "Food 1", "description": "Description 1"}`;
+
+          try {
+            const response = await fetch("/chat", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ prompt: customPrompt }),
+            });
+
+            if (!response.ok) {
+              const errorData = await response.json();
+              throw new Error(errorData.error || "Network response was not ok");
+            }
+
+            const data = await response.json();
+
+            // Create a form dynamically
+            const form = document.createElement("form");
+            form.method = "POST";
+            form.action = "/results";
+
+            // Mood input (hidden)
+            const moodInput = document.createElement("input");
+            moodInput.type = "hidden";
+            moodInput.name = "mood";
+            moodInput.value = mood;
+            form.appendChild(moodInput);
+
+            // Recommendations input (hidden)
+            const recommendationsInput = document.createElement("input");
+            recommendationsInput.type = "hidden";
+            recommendationsInput.name = "recommendations";
+            recommendationsInput.value = JSON.stringify(data); // Use the response data
+            form.appendChild(recommendationsInput);
+
+            // Append the form to the body and submit it
+            document.body.appendChild(form);
+            form.submit();
+          } catch (error) {
+            console.error(
+              "There was a problem with the fetch operation:",
+              error
+            );
+            alert("Error sending mood. Please try again later.");
+          }
+        } else {
+          alert("Please select a mood.");
+        }
+      }
+    </script>
+  </body>
+</html>

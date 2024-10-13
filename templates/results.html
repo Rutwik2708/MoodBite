@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Food Recommendations</title>
+    <style>
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        margin: 0;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: #f8f9fa;
+      }
+      h1 {
+        color: #6e1dd7;
+        margin-bottom: 20px; /* More space before the cards */
+      }
+      .cards {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+      }
+      .card {
+        background-color: #fff;
+        border-radius: 15px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        padding: 15px; /* Reduced padding for less height */
+        width: 60%; /* Wider cards */
+        max-width: 500px; /* Limiting max width */
+        margin-bottom: 20px;
+        opacity: 0;
+        transform: translateX(-100%);
+        animation: slideIn 0.8s forwards;
+        text-align: center; /* Center text in the card */
+      }
+      .card:nth-child(even) {
+        animation-name: slideInRight;
+      }
+      @keyframes slideIn {
+        from {
+          opacity: 0;
+          transform: translateX(-100%);
+        }
+        to {
+          opacity: 1;
+          transform: translateX(0);
+        }
+      }
+      @keyframes slideInRight {
+        from {
+          opacity: 0;
+          transform: translateX(100%);
+        }
+        to {
+          opacity: 1;
+          transform: translateX(0);
+        }
+      }
+      .buttons {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+      }
+      button {
+        background-color: #6e1dd7;
+        color: white;
+        border: none;
+        border-radius: 20px;
+        padding: 10px 20px;
+        margin: 0 10px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+      button:hover {
+        background-color: #5a0ca6;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Food Recommendations for Your Mood: {{ mood }}</h1>
+    <div class="cards">
+      {% for recommendation in recommendations %}
+      <div class="card">
+        <h2>{{ recommendation.name }}</h2>
+        <p>{{ recommendation.description }}</p>
+      </div>
+      {% endfor %}
+    </div>
+    <div class="buttons">
+      <button onclick="orderFood()">Order food</button>
+      <button onclick="getRecipes()">Get me recipes</button>
+      <button onclick="surpriseMe()">Surprise me with a mood box</button>
+    </div>
+    <script>
+      function orderFood() {
+        // Implementation for ordering food
+      }
+      function getRecipes() {
+        // Implementation for getting recipes
+      }
+      function surpriseMe() {
+        // Implementation for surprising with a mood box
+      }
+    </script>
+  </body>
+</html>
